@@ -1,0 +1,39 @@
+make_rodger(){
+    CONTAINER_NAME=$1
+    SOURCE_FOLDER=$2
+    DEVICE_VERSION=$3
+    # Path to the directory containing the Dockerfile
+    SCRIPT_PATH="/PATH_TO_RODGER_CONTAINER"
+    # Remove existing image if it exists
+    if [ "$(docker images -q rodger_image)" ]; then
+        docker rmi rodger_image
+    fi
+    # Build the Docker image
+    docker build -t rodger_image --build-arg USERNAME=$USER --build-arg USERID=$UID --build-arg GROUPID=$(id -g) -f $SCRIPT_PATH/Dockerfile.desktop $SCRIPT_PATH
+    docker run --gpus=all --net=host -p 11434:11434 -i -t -d -e LIBGL_ALWAYS_SOFTWARE=1 -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $SOURCE_FOLDER:/home/$USER/RODGER_src -v ollama:/root/.ollama --name $CONTAINER_NAME rodger_image /bin/bash
+}
+
+delete_container () {
+    CONTAINER_NAME=$1
+    if [ "$(docker ps | grep $CONTAINER_NAME)" ]; then
+        close_container $CONTAINER_NAME
+    fi
+    docker rm $CONTAINER_NAME
+}
+   
+open_terminal () {
+    CONTAINER_NAME=$1
+    xhost +
+    docker exec -it $CONTAINER_NAME env TERM=xterm-256color /bin/bash
+}
+
+start_container () {
+    CONTAINER_NAME=$1
+    if [ ! "$(docker ps | grep $CONTAINER_NAME)" ]; then
+        docker start $CONTAINER_NAME
+    fi
+}
+close_container () {
+    CONTAINER_NAME=$1
+    docker stop $CONTAINER_NAME
+}
