@@ -53,7 +53,7 @@ def sit_customer():
     data = request.get_json()
     messages_sit_customer.append(("user", data['input']))
 
-    file_path = "PATH_TO_CONTEXT/sit_customer_context.txt"
+    file_path = os.path.expanduser('~/RODGER_src/context/sit_customer_context.txt')
     initial_prompt = read_initial_prompt(file_path=file_path)
     context = build_incremental_prompt(initial_prompt, messages_sit_customer)
 
@@ -86,7 +86,7 @@ def handle_order_drink():
     data = request.get_json()
     messages_take_order.append(("user", data['input']))
 
-    file_path = 'PATH_TO_CONTEXT/take_order_drink_context.txt'
+    file_path = os.path.expanduser('~/RODGER_src/context/take_order_drink_context.txt')
     initial_prompt = read_initial_prompt(file_path=file_path)
     context = build_incremental_prompt(initial_prompt, messages_take_order)
 
@@ -118,7 +118,7 @@ def handle_order_dessert():
     data = request.get_json()
     messages_take_order.append(("user", data['input']))
 
-    file_path = 'PATH_TO_CONTEXT/take_order_dessert_context.txt'
+    file_path = os.path.expanduser('~/RODGER_src/context/take_order_dessert_context.txt')
     initial_prompt = read_initial_prompt(file_path=file_path)
     context = build_incremental_prompt(initial_prompt, messages_take_order)
 
@@ -150,7 +150,7 @@ def handle_order_food():
     data = request.get_json()
     messages_take_order.append(("user", data['input']))
 
-    file_path = 'PATH_TO_CONTEXT/take_order_food_context.txt'
+    file_path = os.path.expanduser('~/RODGER_src/context/take_order_food_context.txt')
     initial_prompt = read_initial_prompt(file_path=file_path)
     context = build_incremental_prompt(initial_prompt, messages_take_order)
 
