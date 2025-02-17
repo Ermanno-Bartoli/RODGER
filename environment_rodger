@@ -3,7 +3,7 @@ make_rodger(){
     SOURCE_FOLDER=$2
     DEVICE_VERSION=$3
     # Path to the directory containing the Dockerfile
-    SCRIPT_PATH="/PATH_TO_RODGER_DIR"
+    SCRIPT_PATH=$(cd "$(dirname ${BASH_SOURCE[0]})"; pwd -P)
     # Remove existing image if it exists
     if [ "$(docker images -q rodger_image)" ]; then
         docker rmi rodger_image
